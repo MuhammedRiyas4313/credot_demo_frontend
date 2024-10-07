@@ -1,11 +1,46 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "./axios.service";
-import url, {
-  GeneralApiResponse,
-  GeneralApiResponsePagination,
-} from "./url.service";
+import url, { GeneralApiResponse } from "./url.service";
+
+export interface IOrder {
+  _id: string;
+  userId: string;
+  addressId: string;
+  itemsArr: {
+    sku: string;
+    variantId?: string;
+    subvariantId?: string;
+    price: number;
+    mrp: number;
+    quantity: number;
+    total: number;
+    createdAt: Date;
+  }[];
+  grandTotal: number;
+  itemsCount: number;
+  status: string;
+  remark: string; //to cancel the order remark is mandatory!
+}
 
 const baseUrl = `${url}/order`;
+
+const createOrder = () => {
+  return axios.post(`${baseUrl}`);
+};
+
+export const useCreateOrder = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: createOrder,
+    onSuccess: (res) => {
+      queryClient.invalidateQueries({ queryKey: ["order"] });
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+      queryClient.invalidateQueries({ queryKey: ["order_by_id"] });
+    },
+  });
+};
 
 const getOrder = (pagination: any, searchObj: Record<string, any>) => {
   const query = new URLSearchParams({
@@ -13,7 +48,7 @@ const getOrder = (pagination: any, searchObj: Record<string, any>) => {
     pageSize: String(pagination.pageSize),
     ...searchObj,
   }).toString();
-  return axios.get<GeneralApiResponsePagination<any>>(`${baseUrl}?${query}`);
+  return axios.get<GeneralApiResponse<IOrder[]>>(`${baseUrl}/user/?${query}`);
 };
 
 export const useOrder = (
@@ -25,7 +60,7 @@ export const useOrder = (
 ) => {
   return useQuery({
     queryKey: ["order", pagination, searchObj],
-    queryFn: () => getOrder(pagination, searchObj).then((res) => res.data),
+    queryFn: () => getOrder(pagination, searchObj).then((res) => res.data.data),
   });
 };
 

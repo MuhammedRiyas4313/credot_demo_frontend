@@ -24,6 +24,9 @@ export default function DropDown() {
       toastError(error);
     }
   };
+  const handleSeeOrders = () => {
+    navigate("/orders");
+  };
 
   return (
     <Menu>
@@ -36,12 +39,15 @@ export default function DropDown() {
       <MenuItems
         transition
         anchor="bottom end"
-        className="w-52 origin-top-right rounded-xl border border-gray-300 bg-white p-1 text-sm/6 text-gray-800 transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0"
+        className="w-52 z-10 origin-top-right rounded-xl border border-gray-300 bg-white p-1 text-sm/6 text-gray-800 transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0"
       >
         <MenuItem>
-          <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 hover:bg-gray-100 focus:bg-gray-200">
+          <button
+            onClick={handleSeeOrders}
+            className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 hover:bg-gray-100 focus:bg-gray-200"
+          >
             <UserIcon className="size-4 fill-gray-600" />
-            My Profile
+            My Orders
             <kbd className="ml-auto hidden font-sans text-xs text-gray-500 group-data-[focus]:inline">
               ⌘E
             </kbd>

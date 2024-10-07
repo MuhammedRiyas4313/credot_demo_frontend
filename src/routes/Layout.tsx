@@ -7,6 +7,8 @@ import LayoutWithHeaderFooter from "./LayoutWithHeaderFooter";
 import ProductDetails from "../pages/ProductDetails";
 import ScrollToTop from "../components/scrollToTop/ScrollToTop";
 import Cart from "../pages/Cart";
+import OrderSuccess from "../components/orderSuccess/OrderSuccess";
+import OrderList from "../components/orderList/OrderList";
 
 function Layout() {
   return (
@@ -18,6 +20,8 @@ function Layout() {
             <Route path="/" element={<Home />} />
             <Route path="/product/:id" element={<ProductDetails />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/order_success" element={<OrderSuccess />} />
+            <Route path="/orders" element={<OrderList />} />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />

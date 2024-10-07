@@ -290,7 +290,24 @@ function ProductDetail() {
                       alt=""
                       className="rounded-full object-fill h-4 w-4 md:h-[40px] md:w-[40px]"
                     />
-                    <div className=""></div>
+                    {el?._id === selectedVariant?._id && ( // Assuming `isSelected` indicates whether this variant is selected
+                      <div className="absolute inset-0 flex justify-center items-center">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5 text-white" // You can adjust the size and color
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M5 12l5 5L20 7"
+                          />
+                        </svg>
+                      </div>
+                    )}
                   </div>
                 ))}
             </div>
