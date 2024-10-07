@@ -1,4 +1,3 @@
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/16/solid";
 import { generateFilePath } from "../../services/url.service";
 
 function BannerSlide({ el }: any) {
@@ -12,30 +11,31 @@ function BannerSlide({ el }: any) {
             className="object-cover w-full h-full"
             fetchPriority="high"
           />
-          <div className="h-full w-full bg-custom-gradient absolute left-0 right-0 text-center mx-auto z-10 bottom-0">
-            <div className="absolute left-0 right-0 text-center w-full md:w-[65%] xl:w-[55%] 3xl:w-[40%] top-[25%] md:top-[40%] xl:top-[45%] mx-auto">
-              <h6 className="text-[#f2f2fc] text-sm md:text-text18 3xl:text-xl font-normal mb-0 md:mb-1 3xl:mb-2">
-                {el?.title}
-              </h6>
-              <h1 className="text-text16 md:text-2xl lg:text-3xl xl:text-4xl text-white font-semibold">
-                {el?.tagline}
-              </h1>
+          <div className="h-full w-full md:w-1/2 absolute right-0 z-10 bottom-0 flex items-start">
+            <div className="h-full w-full flex flex-col justify-center items-start p-4 pt-12 md:pt-16 pl-6 md:pl-10 rounded-xl">
+              {/* Group 1: Title and Tagline */}
+              <div className="mb-4 md:mb-6 flex flex-col items-start justify-center mt-2 md:mt-4">
+                <h1 className="text-white font-bold text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl leading-tight">
+                  {el?.title}
+                </h1>
+                <h6 className="text-white font-semibold text-sm sm:text-base md:text-lg xl:text-2xl mt-1 md:mt-2">
+                  {el?.tagline}
+                </h6>
+              </div>
+
+              {/* Group 2: Release Date and Button */}
+              <div className="mt-2 md:mt-4 flex flex-col items-start justify-center w-full md:w-1/2">
+                <p className="text-white font-semibold text-xs sm:text-sm md:text-base xl:text-lg mb-3 md:mb-4">
+                  {el?.releaseDate}
+                </p>
+                <button className="text-black bg-white rounded-full px-4 py-1 text-xs sm:text-sm md:text-base xl:text-lg font-semibold hover:bg-gray-200">
+                  {el?.buttonText}
+                </button>
+              </div>
             </div>
           </div>
         </a>
       </div>
-      {/* <div
-        className="custom-prev cursor-pointer top-1/2 left-2 md:left-16 z-10 absolute flex items-center justify-center w-8 h-8 md:w-12 md:h-12 rounded-full bg-[rgba(255,255,255,0.29)] hover:bg-[rgba(231,231,231,0.29)] transition-colors duration-200"
-        style={{ backdropFilter: "blur(88px)" }}
-      >
-        <ChevronLeftIcon className="size-5 fill-black" />
-      </div>
-      <div
-        className="custom-next cursor cursor-pointer top-1/2 right-2 md:right-16 z-10 absolute flex items-center justify-center w-8 h-8 md:w-12 md:h-12 rounded-full bg-[rgba(255,255,255,0.29)] hover:bg-[rgba(231,231,231,0.29)] transition-colors duration-200"
-        style={{ backdropFilter: "blur(88px)" }}
-      >
-        <ChevronRightIcon className="size-5 fill-black" />
-      </div> */}
     </>
   );
 }

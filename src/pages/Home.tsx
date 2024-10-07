@@ -39,6 +39,7 @@ function Home() {
             spaceBetween={0}
             homeBanner
             navigation
+            loop
             data={
               activeBanner?.imagesArr?.length > 0 ? activeBanner?.imagesArr : []
             }
