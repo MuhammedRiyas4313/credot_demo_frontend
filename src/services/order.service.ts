@@ -34,10 +34,12 @@ export const useCreateOrder = () => {
   return useMutation({
     mutationFn: createOrder,
     onSuccess: (res) => {
-      queryClient.invalidateQueries({ queryKey: ["order"] });
-      queryClient.invalidateQueries({ queryKey: ["cart"] });
-      queryClient.invalidateQueries({ queryKey: ["products"] });
-      queryClient.invalidateQueries({ queryKey: ["order_by_id"] });
+      if (res) {
+        queryClient.invalidateQueries({ queryKey: ["order"] });
+        queryClient.invalidateQueries({ queryKey: ["cart"] });
+        queryClient.invalidateQueries({ queryKey: ["products"] });
+        queryClient.invalidateQueries({ queryKey: ["order_by_id"] });
+      }
     },
   });
 };
@@ -86,8 +88,10 @@ export const useUpdateOrderStatus = () => {
   return useMutation({
     mutationFn: updateOrderStatus,
     onSuccess: (res) => {
-      queryClient.invalidateQueries({ queryKey: ["order"] });
-      queryClient.invalidateQueries({ queryKey: ["order_by_id"] });
+      if (res) {
+        queryClient.invalidateQueries({ queryKey: ["order"] });
+        queryClient.invalidateQueries({ queryKey: ["order_by_id"] });
+      }
     },
   });
 };

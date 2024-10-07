@@ -10,6 +10,10 @@ export default function DropDown() {
   const [auth, setAuth] = useAuth();
   const navigate = useNavigate();
 
+  if (auth) {
+    console.log("LOGED IN ");
+  }
+
   //HANDLERS
   const handleLogOut = () => {
     try {

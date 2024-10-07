@@ -12,6 +12,10 @@ export const webLogin = async (obj: { email: string; password: string }) => {
 
 export const useLogin = () => {
   const [auth, setAuth] = useAuth();
+  if (auth) {
+    console.log("LOGED IN ");
+  }
+
   return useMutation({
     mutationFn: webLogin,
     onSuccess: (res) => {

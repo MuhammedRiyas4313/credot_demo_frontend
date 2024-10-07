@@ -57,7 +57,9 @@ export const useAddToCart = () => {
   return useMutation({
     mutationFn: addToCart,
     onSuccess: (res) => {
-      queryClient.invalidateQueries({ queryKey: ["cart"] });
+      if (res) {
+        queryClient.invalidateQueries({ queryKey: ["cart"] });
+      }
     },
   });
 };
@@ -72,7 +74,9 @@ export const useRemoveCartItem = () => {
   return useMutation({
     mutationFn: removeCartItem,
     onSuccess: (res) => {
-      queryClient.invalidateQueries({ queryKey: ["cart"] });
+      if (res) {
+        queryClient.invalidateQueries({ queryKey: ["cart"] });
+      }
     },
   });
 };

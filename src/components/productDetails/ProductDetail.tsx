@@ -30,7 +30,9 @@ function ProductDetail() {
   const { data: product } = useProductById(id, !!id);
 
   //STATES
-  const [tabs, setTabs] = useState<any>([
+  const [tabs, setTabs] = useState<
+    { name: TABS_TYPE | string; text: string }[]
+  >([
     {
       name: TABS.SPEC,
       text: "",
