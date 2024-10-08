@@ -19,7 +19,7 @@ function OrderList() {
           <Breadcrumb title="Orders" />
           {orders && orders?.length > 0 ? (
             <div className="p-[15px] md:px-[130px] md:py-[130px]">
-              <OrderTable items={orders} isLoading={isLoading} />
+              <OrderTable items={orders} />
             </div>
           ) : (
             <div className="min-h-[500px] w-full flex justify-center items-center">

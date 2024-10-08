@@ -50,7 +50,7 @@ const getOrder = (pagination: any, searchObj: Record<string, any>) => {
     pageSize: String(pagination.pageSize),
     ...searchObj,
   }).toString();
-  return axios.get<GeneralApiResponse<IOrder[]>>(`${baseUrl}/user/?${query}`);
+  return axios.get<GeneralApiResponse<IOrder[]>>(`${baseUrl}/user?${query}`);
 };
 
 export const useOrder = (
