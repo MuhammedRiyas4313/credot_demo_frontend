@@ -1,4 +1,5 @@
 import { SORT_ORDER } from "../common/constant.common";
+import BrandSlide from "../components/brandList/BrandSlide";
 import Loader from "../components/loader/Loader";
 import ProductList from "../components/productList/ProductList";
 import SectionTitle from "../components/sectionTitle/SectionTitle";
@@ -51,13 +52,22 @@ function Home() {
             />
             <ProductList />
             <SectionTitle title="Top Brands" titleOnMobile="Top Brands" />
-            <div className="pb-20">
+            <div className="pb-20 hidden md:block">
               <SwiperComponent
                 brands
                 slidesPerView={7}
                 spaceBetween={8}
                 data={topBrands && topBrands?.length > 0 ? topBrands : []}
               />
+            </div>
+            <div className="mb-20 py-4  flex gap-5 overflow-x-scroll md:hidden">
+              {topBrands &&
+                topBrands?.length > 0 &&
+                topBrands?.map((el, index) => (
+                  <div className="" key={index}>
+                    <BrandSlide el={el} />
+                  </div>
+                ))}
             </div>
           </div>
         </>

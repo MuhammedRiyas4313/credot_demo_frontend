@@ -64,8 +64,8 @@ function ProductDetail() {
 
   //HANDLERS
   const handleSelectImage = (el: any) => {
-    if (el?.image) {
-      setSelectedImage(el?.image);
+    if (el) {
+      setSelectedImage(el);
     }
   };
   const handleSelectVariant = useCallback((variant: any) => {
@@ -188,7 +188,7 @@ function ProductDetail() {
       }: any = product;
       setImagesArr(imagesArr);
       if (imagesArr?.length) {
-        setSelectedImage(imagesArr[0].image);
+        setSelectedImage(imagesArr[0]);
       }
       setSelectedVariant(selectedVariant);
       setSelectedSubVariant(selectedSubVariant);
@@ -222,7 +222,11 @@ function ProductDetail() {
             <div className="gallery  w-full md:w-[40%]  flex flex-col justify-between  items-center">
               <div className="flex justify-center items-center p-10 md:p-32 w-full md:mb-10 mb-5 bg-[#F9F9F9] object-contain">
                 <img
-                  src={selectedImage ? generateFilePath(selectedImage) : ""}
+                  src={
+                    selectedImage?.image
+                      ? generateFilePath(selectedImage?.image)
+                      : ""
+                  }
                   alt="Main_image"
                   className="h-[200px] w-[125px] md:h-[300px] md:w-[225px] object-contain"
                 />
@@ -235,11 +239,11 @@ function ProductDetail() {
                 }}
               >
                 {imagesArr?.length > 0 &&
-                  imagesArr?.map((el: any) => (
+                  imagesArr?.map((el: any, index: number) => (
                     <div
-                      key={el?.image}
-                      onClick={() => handleSelectImage(el?.image)}
-                      className={`hover:opacity-80 min-h-[100px] min-w-[100px] md:min-h-[135px] md:min-w-[135px] object-contain border border-[#EEEEEE] flex justify-center items-center ${selectedImage === el?.image ? "bg-[#EEEEEE] " : "bg-[#EEEEEE]"} `}
+                      key={index}
+                      onClick={() => handleSelectImage(el)}
+                      className={`hover:opacity-80 min-h-[100px] min-w-[100px] md:min-h-[135px] md:min-w-[135px] object-contain border border-[#EEEEEE] flex justify-center items-center ${selectedImage?._id === el?._id ? "" : "bg-[#EEEEEE] "} `}
                     >
                       <img
                         src={el?.image ? generateFilePath(el?.image) : ""}

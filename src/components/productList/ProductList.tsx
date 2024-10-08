@@ -26,7 +26,6 @@ function ProductList() {
   };
   const handleAddToCart = useCallback(async (el: any, e: any) => {
     try {
-      console.log(el, "ELEMENT");
       e.stopPropagation();
       if (el?.inCart) {
         navigate(`cart`);
