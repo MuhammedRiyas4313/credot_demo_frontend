@@ -83,7 +83,7 @@ function CartItems({ items }: { items: ICartItems[] }) {
         <div className="flex w-full md:w-auto mb-3 md:mb-auto">
           <input
             type="text"
-            className="border px-4 md:px-5  py-2 placeholder:text-[10px] placeholder:text-[#585858]"
+            className="border px-4 md:px-5  md:py-2 placeholder:text-[10px] placeholder:text-[#585858]"
             placeholder="Coupon Code"
           />
           <button className="bg-black w-full text-[12px] uppercase text-white px-2 md:px-6 py-2 hover:opacity-85">

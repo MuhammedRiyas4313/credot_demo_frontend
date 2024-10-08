@@ -5,15 +5,16 @@ import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import LayoutWithHeaderFooter from "./LayoutWithHeaderFooter";
 import ProductDetails from "../pages/ProductDetails";
-import ScrollToTop from "../components/scrollToTop/ScrollToTop";
+// import ScrollToTop from "../components/scrollToTop/ScrollToTop";
 import Cart from "../pages/Cart";
-import OrderSuccess from "../components/orderSuccess/OrderSuccess";
 import OrderList from "../components/orderList/OrderList";
+import OrderSuccess from "../pages/OrderSuccess";
+import ErrorPage from "../components/error404/ErrorPage";
 
 function Layout() {
   return (
     <Router>
-      <ScrollToTop />
+      {/* <ScrollToTop /> */}
       <Routes>
         <Route element={<LayoutWithHeaderFooter />}>
           <Route element={<PrivateRoutes />}>
@@ -22,10 +23,11 @@ function Layout() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/order_success" element={<OrderSuccess />} />
             <Route path="/orders" element={<OrderList />} />
+            <Route path="/*" element={<ErrorPage />} />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="*" element={<h1>Page not found</h1>} />
+          <Route path="/*" element={<ErrorPage />} />
         </Route>
       </Routes>
     </Router>

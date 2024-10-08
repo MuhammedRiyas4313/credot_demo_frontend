@@ -9,6 +9,8 @@ import { generateFilePath } from "../../services/url.service";
 import { toastError, toastSuccess } from "../../utils/toast";
 import { useAddToCart } from "../../services/cart.service";
 import { ERROR } from "../../common/error.common";
+import { useLoading } from "../../hooks/useLoading";
+import Loader from "../loader/Loader";
 
 const QUANTITY = {
   INC: "INC",
@@ -27,7 +29,12 @@ function ProductDetail() {
   const { id } = useParams();
 
   //DATA
-  const { data: product } = useProductById(id, !!id);
+  const {
+    data: product,
+    isFetching,
+    isLoading: isProductIsLoading,
+  } = useProductById(id, !!id);
+  const isLoading = useLoading(isFetching, isProductIsLoading);
 
   //STATES
   const [tabs, setTabs] = useState<
@@ -56,11 +63,11 @@ function ProductDetail() {
   const { mutateAsync: addToCart } = useAddToCart();
 
   //HANDLERS
-  const handleSelectImage = useCallback((el: any) => {
+  const handleSelectImage = (el: any) => {
     if (el?.image) {
       setSelectedImage(el?.image);
     }
-  }, []);
+  };
   const handleSelectVariant = useCallback((variant: any) => {
     if (variant) {
       setSelectedVariant(variant);
@@ -208,189 +215,193 @@ function ProductDetail() {
 
   return (
     <>
-      <div className="p-[15px] md:px-[130px] md:py-[60px]">
-        {/* detail section */}
-        <div className="flex flex-wrap">
-          <div className="gallery  w-full md:w-[40%]  flex flex-col justify-between  items-center">
-            <div className="flex justify-center items-center p-10 md:p-32 w-full md:mb-10 mb-5 bg-[#F9F9F9] object-contain">
-              <img
-                src={selectedImage ? generateFilePath(selectedImage) : ""}
-                alt="Main_image"
-                className="h-[200px] w-[125px] md:h-[300px] md:w-[225px] object-contain"
-              />
-            </div>
-            <div
-              className="w-[100%] flex gap-5 overflow-y-scroll"
-              style={{
-                scrollbarWidth: "none", // For Firefox
-                msOverflowStyle: "none", // For IE and Edge
-              }}
-            >
-              {imagesArr?.length > 0 &&
-                imagesArr?.map((el: any, index) => (
-                  <div
-                    key={index}
-                    onClick={() => handleSelectImage(el)}
-                    className={`hover:opacity-80 min-h-[100px] min-w-[100px] md:min-h-[135px] md:min-w-[135px] object-contain border border-[#EEEEEE] flex justify-center items-center ${selectedImage !== el?.image ? "bg-[#EEEEEE]" : ""} `}
-                  >
-                    <img
-                      src={el?.image ? generateFilePath(el?.image) : ""}
-                      className="object-contain h-[30px] w-[30px] md:h-[50px] md:w-[50px]"
-                    />
-                  </div>
-                ))}
-            </div>
-          </div>
-          {/* Product Details */}
-          <div className="h-full md:w-[60%] flex items-start p-5 md:p-12 md:px-16 flex-col gap-3 md:gap-6">
-            <h2 className="text-[22px] md:text-[28px] font-medium leading-[33.43px] text-left line-clamp-1 md:line-clamp-2">
-              {name}
-            </h2>
-            <p className="text-[10px] md:text-[12px] leading-[26px] tracking[-0.01em] text-[#999999] flex gap-3 items-center">
-              <div className="flex gap-1">
-                {Array(5)
-                  .fill(null)
-                  .map((_, index) => (
-                    <StarIcon
-                      key={index}
-                      className="md:size-4 size-2 fill-[#999999]"
-                    />
+      {!isLoading ? (
+        <div className="p-[15px] md:px-[130px] md:py-[60px]">
+          {/* detail section */}
+          <div className="flex flex-wrap">
+            <div className="gallery  w-full md:w-[40%]  flex flex-col justify-between  items-center">
+              <div className="flex justify-center items-center p-10 md:p-32 w-full md:mb-10 mb-5 bg-[#F9F9F9] object-contain">
+                <img
+                  src={selectedImage ? generateFilePath(selectedImage) : ""}
+                  alt="Main_image"
+                  className="h-[200px] w-[125px] md:h-[300px] md:w-[225px] object-contain"
+                />
+              </div>
+              <div
+                className="w-[100%] flex gap-5 overflow-y-scroll"
+                style={{
+                  scrollbarWidth: "none", // For Firefox
+                  msOverflowStyle: "none", // For IE and Edge
+                }}
+              >
+                {imagesArr?.length > 0 &&
+                  imagesArr?.map((el: any) => (
+                    <div
+                      key={el?.image}
+                      onClick={() => handleSelectImage(el?.image)}
+                      className={`hover:opacity-80 min-h-[100px] min-w-[100px] md:min-h-[135px] md:min-w-[135px] object-contain border border-[#EEEEEE] flex justify-center items-center ${selectedImage === el?.image ? "bg-[#EEEEEE] " : "bg-[#EEEEEE]"} `}
+                    >
+                      <img
+                        src={el?.image ? generateFilePath(el?.image) : ""}
+                        className="object-contain h-[30px] w-[30px] md:h-[50px] md:w-[50px]"
+                      />
+                    </div>
                   ))}
               </div>
-              (There are no reviews yet)
-            </p>
-            <p className="flex md:gap-0">
-              <span className="mr-2 font-semibold text-[12px] leading-[15px] text-[#606060]">
-                INR
-              </span>
-              <span className="mr-2 font-extrabold text-[16px] md:text-[20px] leading-[15px] tracking-[-0.1px] text-black">
-                {price ? price?.toFixed(2) : "Nil"}
-              </span>
-              <span className="font-semibold text-[14px] italic md:text-[18px]  leading-[15px] tracking-[-0.1px] text-[#606060] line-through">
-                {mrp ? mrp?.toFixed(2) : "Nil"}
-              </span>
-            </p>
-            <p className="text-[#606060] mb-5 text-[12px] md:text-[14px] line-clamp-3">
-              {description}
-            </p>
-            {selectedVariant && (
-              <p className="font-semibold text-[12px] md:text-[14px]">
-                Color: &nbsp;{selectedVariant?.title}
-              </p>
-            )}
-            <div className="flex gap-5 mb-2 flex-wrap">
-              {product &&
-                product?.variants?.length > 0 &&
-                product?.variants?.map((el: any, index: number) => (
-                  <div
-                    onClick={() => handleSelectVariant(el)}
-                    key={index}
-                    className={`relative bg-[#F8F8F8] cursor-pointer hover:opacity-80 h-8 w-8 md:h-[63px] md:w-[63px] rounded-full object-fill flex justify-center items-center`}
-                  >
-                    <img
-                      src={el?.image ? generateFilePath(el?.image) : ""}
-                      alt=""
-                      className="rounded-full object-fill h-4 w-4 md:h-[40px] md:w-[40px]"
-                    />
-                    {el?._id === selectedVariant?._id && ( // Assuming `isSelected` indicates whether this variant is selected
-                      <div className="absolute inset-0 flex justify-center items-center">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5 text-white" // You can adjust the size and color
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M5 12l5 5L20 7"
-                          />
-                        </svg>
-                      </div>
-                    )}
-                  </div>
-                ))}
             </div>
-            {selectedVariant && selectedVariant?.subvariants?.length > 0 && (
-              <p className="font-semibold text-[12px] md:text-[14px]">
-                Internal Memory
+            {/* Product Details */}
+            <div className="h-full md:w-[60%] flex items-start p-5 md:p-12 md:px-16 flex-col gap-3 md:gap-6">
+              <h2 className="text-[22px] md:text-[28px] font-medium leading-[33.43px] text-left line-clamp-1 md:line-clamp-2">
+                {name}
+              </h2>
+              <p className="text-[10px] md:text-[12px] leading-[26px] tracking[-0.01em] text-[#999999] flex gap-3 items-center">
+                <div className="flex gap-1">
+                  {Array(5)
+                    .fill(null)
+                    .map((_, index) => (
+                      <StarIcon
+                        key={index}
+                        className="md:size-4 size-2 fill-[#999999]"
+                      />
+                    ))}
+                </div>
+                (There are no reviews yet)
               </p>
-            )}
-            <div className="flex gap-2 mb-6">
-              {selectedVariant?.subvariants &&
-                selectedVariant?.subvariants?.length > 0 &&
-                selectedVariant?.subvariants?.map((el: any) => (
-                  <div
-                    onClick={() => handleSelectSubVariant(el)}
-                    className={`${selectedSubVariant?._id === el._id ? "bg-black text-white " : "hover:opacity-80 text-[#292D32]"} px-2 cursor-pointer md:px-6 py-2 md:py-3 flex gap-2 border border-[#DCDCDC] font-bold text-[10px] md:text-[12px]`}
-                  >
-                    {el?.title}
-                  </div>
-                ))}
-            </div>
-            <div className="quantity_section border-b border-t border-[#DCDCDC] w-full p-4 flex gap-3 md:gap-8">
-              <div className="quntity_buttons flex">
-                <div
-                  className="border border-[#DCDCDC] px-3 py-1 md:py-3 cursor-pointer hover:opacity-80"
-                  onClick={() => handleQuantityChange(QUANTITY.DEC)}
-                >
-                  -
-                </div>
-                <div className="border border-[#DCDCDC] px-6 py-1 md:py-3">
-                  {quantity}
-                </div>
-                <div
-                  className="border border-[#DCDCDC] px-3 py-1 md:py-3 cursor-pointer hover:opacity-80"
-                  onClick={() => handleQuantityChange(QUANTITY.INC)}
-                >
-                  +
-                </div>
+              <p className="flex md:gap-0">
+                <span className="mr-2 font-semibold text-[12px] leading-[15px] text-[#606060]">
+                  INR
+                </span>
+                <span className="mr-2 font-extrabold text-[16px] md:text-[20px] leading-[15px] tracking-[-0.1px] text-black">
+                  {price ? price?.toFixed(2) : "Nil"}
+                </span>
+                <span className="font-semibold text-[14px] italic md:text-[18px]  leading-[15px] tracking-[-0.1px] text-[#606060] line-through">
+                  {mrp ? mrp?.toFixed(2) : "Nil"}
+                </span>
+              </p>
+              <p className="text-[#606060] mb-5 text-[12px] md:text-[14px] line-clamp-3">
+                {description}
+              </p>
+              {selectedVariant && (
+                <p className="font-semibold text-[12px] md:text-[14px]">
+                  Color: &nbsp;{selectedVariant?.title}
+                </p>
+              )}
+              <div className="flex gap-5 mb-2 flex-wrap">
+                {product &&
+                  product?.variants?.length > 0 &&
+                  product?.variants?.map((el: any, index: number) => (
+                    <div
+                      onClick={() => handleSelectVariant(el)}
+                      key={index}
+                      className={`relative bg-[#F8F8F8] cursor-pointer hover:opacity-80 h-8 w-8 md:h-[63px] md:w-[63px] rounded-full object-fill flex justify-center items-center`}
+                    >
+                      <img
+                        src={el?.image ? generateFilePath(el?.image) : ""}
+                        alt=""
+                        className="rounded-full object-fill h-4 w-4 md:h-[40px] md:w-[40px]"
+                      />
+                      {el?._id === selectedVariant?._id && ( // Assuming `isSelected` indicates whether this variant is selected
+                        <div className="absolute inset-0 flex justify-center items-center">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-5 w-5 text-white" // You can adjust the size and color
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M5 12l5 5L20 7"
+                            />
+                          </svg>
+                        </div>
+                      )}
+                    </div>
+                  ))}
               </div>
-              <div className="addbutton">
-                <button
-                  onClick={() => handleAddToCart()}
-                  className="uppercase flex bg-black text-white text-[12px] md:text-[16px] px-5 py-2 md:px-8 h-full w-full justify-center items-center hover:opacity-80"
-                >
-                  Add to cart
-                </button>
+              {selectedVariant && selectedVariant?.subvariants?.length > 0 && (
+                <p className="font-semibold text-[12px] md:text-[14px]">
+                  Internal Memory
+                </p>
+              )}
+              <div className="flex gap-2 mb-6">
+                {selectedVariant?.subvariants &&
+                  selectedVariant?.subvariants?.length > 0 &&
+                  selectedVariant?.subvariants?.map((el: any) => (
+                    <div
+                      onClick={() => handleSelectSubVariant(el)}
+                      className={`${selectedSubVariant?._id === el._id ? "bg-black text-white " : "hover:opacity-80 text-[#292D32]"} px-2 cursor-pointer md:px-6 py-2 md:py-3 flex gap-2 border border-[#DCDCDC] font-bold text-[10px] md:text-[12px]`}
+                    >
+                      {el?.title}
+                    </div>
+                  ))}
+              </div>
+              <div className="quantity_section border-b border-t border-[#DCDCDC] w-full p-4 flex gap-3 md:gap-8">
+                <div className="quntity_buttons flex">
+                  <div
+                    className="border border-[#DCDCDC] px-3 py-1 md:py-3 cursor-pointer hover:opacity-80"
+                    onClick={() => handleQuantityChange(QUANTITY.DEC)}
+                  >
+                    -
+                  </div>
+                  <div className="border border-[#DCDCDC] px-6 py-1 md:py-3">
+                    {quantity}
+                  </div>
+                  <div
+                    className="border border-[#DCDCDC] px-3 py-1 md:py-3 cursor-pointer hover:opacity-80"
+                    onClick={() => handleQuantityChange(QUANTITY.INC)}
+                  >
+                    +
+                  </div>
+                </div>
+                <div className="addbutton">
+                  <button
+                    onClick={() => handleAddToCart()}
+                    className="uppercase flex bg-black text-white text-[12px] md:text-[16px] px-5 py-2 md:px-8 h-full w-full justify-center items-center hover:opacity-80"
+                  >
+                    Add to cart
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Over view Section */}
+          {/* Over view Section */}
 
-        {/* Over view section */}
-        <div className="flex h-screen w-full justify-start pt-5 md:pt-24 px-4">
-          <div className="w-full">
-            <TabGroup>
-              <TabList className="flex gap-10 border-b w-full border-[#DAD7D7]">
-                {tabs.map(({ name }: any) => (
-                  <Tab
-                    key={name}
-                    className="text-[16px] md:text-[20px] pb-4 py-1 px-3 text-sm/6 text-black focus:outline-none data-[selected]:border-b-2 data-[selected]:border-black data-[selected]:font-bold data-[hover]:bg-white/5 data-[selected]:data-[hover]:bg-white/10 data-[focus]:outline-1 data-[focus]:outline-white"
-                  >
-                    {name}
-                  </Tab>
-                ))}
-              </TabList>
-              <TabPanels className="mt-3 md:w-[60%] w-full pt-3  md:pt-10">
-                {tabs.map(({ name, text }: any) => (
-                  <TabPanel key={name} className="rounded-xl bg-white/5 p-3">
-                    {name === TABS.SPEC ? (
-                      <div dangerouslySetInnerHTML={{ __html: text }}></div>
-                    ) : (
-                      <div className="text-black">{text}</div>
-                    )}
-                  </TabPanel>
-                ))}
-              </TabPanels>
-            </TabGroup>
+          {/* Over view section */}
+          <div className="flex h-screen w-full justify-start pt-5 md:pt-24 px-4">
+            <div className="w-full">
+              <TabGroup>
+                <TabList className="flex gap-10 border-b w-full border-[#DAD7D7]">
+                  {tabs.map(({ name }: any) => (
+                    <Tab
+                      key={name}
+                      className="text-[16px] md:text-[20px] pb-4 py-1 px-3 text-sm/6 text-black focus:outline-none data-[selected]:border-b-2 data-[selected]:border-black data-[selected]:font-bold data-[hover]:bg-white/5 data-[selected]:data-[hover]:bg-white/10 data-[focus]:outline-1 data-[focus]:outline-white"
+                    >
+                      {name}
+                    </Tab>
+                  ))}
+                </TabList>
+                <TabPanels className="mt-3 md:w-[60%] w-full pt-3  md:pt-10">
+                  {tabs.map(({ name, text }: any) => (
+                    <TabPanel key={name} className="rounded-xl bg-white/5 p-3">
+                      {name === TABS.SPEC ? (
+                        <div dangerouslySetInnerHTML={{ __html: text }}></div>
+                      ) : (
+                        <div className="text-black">{text}</div>
+                      )}
+                    </TabPanel>
+                  ))}
+                </TabPanels>
+              </TabGroup>
+            </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <Loader />
+      )}
     </>
   );
 }

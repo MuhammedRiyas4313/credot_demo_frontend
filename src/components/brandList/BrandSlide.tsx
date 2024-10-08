@@ -7,7 +7,7 @@ function BrandSlide({ el }: any) {
         <img
           src={el?.logo ? generateFilePath(el?.logo) : ""}
           alt="brand_logo"
-          className="h-auto w-full object-cover"
+          className="object-cover"
         />
       </div>
     </>
