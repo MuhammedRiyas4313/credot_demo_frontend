@@ -10,7 +10,7 @@ function SectionTitle({
       <h2 className="font-semibold text-[32px] leading-[48.96px] hidden md:block">
         {title}
       </h2>
-      <h2 className="font-semibold text-[16px] leading-[48.96px] md:hidden">
+      <h2 className="font-semibold mb-3 text-[16px] leading-[48.96px] md:hidden">
         {titleOnMobile}
       </h2>
     </div>
