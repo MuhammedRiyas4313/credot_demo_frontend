@@ -1,4 +1,5 @@
 import { generateFilePath } from "../../services/url.service";
+import dummyBanner from "../../assets/images/dummy_banner.png";
 
 function BannerSlide({ el }: any) {
   return (
@@ -6,7 +7,7 @@ function BannerSlide({ el }: any) {
       <div className="image group w-full h-[250px] md:h-[400px] lg:h-[500px] xl:h-[600px] 3xl:h-[750px] relative">
         <a href={el?.url ? `${el.url}` : "#"}>
           <img
-            src={generateFilePath(el?.image)}
+            src={el?.image ? generateFilePath(el?.image) : dummyBanner}
             alt="image"
             className="object-cover w-full h-full"
             fetchPriority="high"

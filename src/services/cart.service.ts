@@ -59,6 +59,7 @@ export const useAddToCart = () => {
     onSuccess: (res) => {
       if (res) {
         queryClient.invalidateQueries({ queryKey: ["cart"] });
+        queryClient.invalidateQueries({ queryKey: ["product"] });
       }
     },
   });

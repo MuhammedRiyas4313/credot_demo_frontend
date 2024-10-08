@@ -5,16 +5,16 @@ import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import LayoutWithHeaderFooter from "./LayoutWithHeaderFooter";
 import ProductDetails from "../pages/ProductDetails";
-// import ScrollToTop from "../components/scrollToTop/ScrollToTop";
 import Cart from "../pages/Cart";
 import OrderList from "../components/orderList/OrderList";
 import OrderSuccess from "../pages/OrderSuccess";
 import ErrorPage from "../components/error404/ErrorPage";
+import ScrollToTop from "../components/scrollToTop/ScrollToTop";
 
 function Layout() {
   return (
     <Router>
-      {/* <ScrollToTop /> */}
+      <ScrollToTop />
       <Routes>
         <Route element={<LayoutWithHeaderFooter />}>
           <Route element={<PrivateRoutes />}>
