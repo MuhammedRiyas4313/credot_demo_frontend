@@ -4,18 +4,25 @@ import CartSummary from "../components/cart/CartSummary";
 import { useCart } from "../services/cart.service";
 import Loader from "../components/loader/Loader";
 import { ShoppingCartIcon } from "@heroicons/react/16/solid";
-import { useLoading } from "../hooks/useLoading";
+import { useEffect, useState } from "react";
 
 function Cart() {
   //DATA
   const {
     data: cart,
-    isLoading: isCartLoading,
-    isFetching: isCartFetching,
+    // isLoading: isCartLoading,
+    // isFetching: isCartFetching,
   } = useCart();
 
   //LOADING STATUS
-  const isLoading = useLoading(isCartLoading, isCartFetching);
+  // const isLoading = useLoading(isCartLoading, isCartFetching);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  }, []);
 
   return (
     <>
