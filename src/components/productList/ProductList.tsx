@@ -166,8 +166,8 @@ function ProductList() {
             ))}
         </div>
       </div>
-      <div className="hidden p-5 md:flex justify-end gap-1 items-center mt-5 cursor-pointer text-[18px] font-semibold">
-        View more <ArrowRightIcon className="size-5 fill-black" />
+      <div className="p-3 md:p-5 md:flex justify-end gap-1 items-center mt-3 md:mt-5 cursor-pointer text-[12px] md:text-[18px] font-semibold">
+        View more <ArrowRightIcon className="md:size-5 size-3 fill-black" />
       </div>
     </div>
   );

@@ -74,7 +74,7 @@ function ProductDetail() {
       setName(variant?.name);
       setImagesArr(variant?.imagesArr);
       if (variant?.imagesArr[0].image) {
-        setSelectedImage(variant?.imagesArr[0].image);
+        setSelectedImage(variant?.imagesArr[0]);
       }
       let desc = null;
       let spec = null;
