@@ -297,12 +297,12 @@ function ProductDetail() {
                     <div
                       onClick={() => handleSelectVariant(el)}
                       key={index}
-                      className={`relative bg-[#F8F8F8] cursor-pointer hover:opacity-80 h-8 w-8 md:h-[63px] md:w-[63px] rounded-full object-fill flex justify-center items-center`}
+                      className={`relative bg-[#F8F8F8] cursor-pointer hover:opacity-80 h-[43px] w-[43px] md:h-[63px] md:w-[63px] rounded-full object-fill flex justify-center items-center`}
                     >
                       <img
                         src={el?.image ? generateFilePath(el?.image) : ""}
                         alt=""
-                        className="rounded-full object-fill h-4 w-4 md:h-[40px] md:w-[40px]"
+                        className="rounded-full object-fill h-[23px] w-[23px] md:h-[40px] md:w-[40px]"
                       />
                       {el?._id === selectedVariant?._id && ( // Assuming `isSelected` indicates whether this variant is selected
                         <div className="absolute inset-0 flex justify-center items-center">
@@ -330,7 +330,7 @@ function ProductDetail() {
                   Internal Memory
                 </p>
               )}
-              <div className="flex gap-2 mb-6">
+              <div className="flex gap-3 mb-6">
                 {selectedVariant?.subvariants &&
                   selectedVariant?.subvariants?.length > 0 &&
                   selectedVariant?.subvariants?.map((el: any) => (

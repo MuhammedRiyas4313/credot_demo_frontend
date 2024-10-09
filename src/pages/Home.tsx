@@ -60,7 +60,7 @@ function Home() {
                 data={topBrands && topBrands?.length > 0 ? topBrands : []}
               />
             </div>
-            <div className="mb-20 py-4  flex gap-5 overflow-x-scroll md:hidden">
+            <div className="py-4  flex gap-5 overflow-x-scroll md:hidden">
               {topBrands &&
                 topBrands?.length > 0 &&
                 topBrands?.map((el, index) => (
