@@ -16,7 +16,7 @@ function ProductList() {
   const { mutateAsync: addToCart } = useAddToCart();
 
   //DATA
-  const { data: products } = useProduct({}, { pageIndex: 0, pageSize: 7 });
+  const { data: products } = useProduct({ pageIndex: 0, pageSize: 7 }, {});
 
   //HANDLERS
   const handleClickProduct = (id: string) => {

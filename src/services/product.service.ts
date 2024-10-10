@@ -68,11 +68,11 @@ const getProduct = (pagination: any, searchObj: Record<string, any>) => {
 };
 
 export const useProduct = (
-  searchObj: Record<string, any> = {},
   pagination: any = {
     pageIndex: 0,
     pageSize: 10000,
-  }
+  },
+  searchObj: Record<string, any> = {}
 ) => {
   return useQuery({
     queryKey: ["product", pagination, searchObj],
